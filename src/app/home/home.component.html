@@ -1,0 +1,123 @@
+
+ 
+  
+  <div class="container py-4">
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog">   
+              <div class="modal-content">
+          <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Student Insert</h4>
+      <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <form #studform="ngForm" (ngSubmit)="onSubmit(studform)">
+          <div class="form-group">
+            
+              <input type="text" style="display:none;" class="form-control" class="form-control" #studentId="ngModel" [(ngModel)]="studentIdTxt" id="studentId" name="studentId"  required  placeholder="Enter student Name"/>
+          </div>
+            <div class="form-group">
+                <label for="studentName">Enter Student Name:</label>
+                <input type="text" class="form-control" pattern="[A-Za-z]{1,}" class="form-control" #studentName="ngModel" [(ngModel)]="studentNameTxt" id="studentName" name="studentName"  required  placeholder="Enter student Name"/>
+            </div>
+              <div *ngIf="studentName?.errors && (studentName?.dirty || studentName?.touched)"
+              class="alert alert-danger">
+          
+            <div style="color:red" *ngIf="studentName.errors.required">
+              Student Name is required.
+            </div>
+            <div style="color:red" *ngIf="studentName.errors.pattern">
+                      Enter Only Alphabets.
+                    </div>
+              </div>
+
+              <div class="form-group">
+                <label for="studentCourse">Enter Student Course:</label>
+                <input type="text" pattern="[A-Za-z]{1,}" class="form-control" #studentCourse="ngModel" id="studentCourse" [(ngModel)]="studentCourseTxt" name="studentCourse" required placeholder="Enter student Course"/>
+              </div>
+              <div *ngIf="studform.controls.studentCourse?.errors && (studform.controls.studentCourse?.dirty || studform.controls.studentCourse?.touched)"
+              class="alert alert-danger">
+          
+            <div style="color:red" *ngIf="studform.controls.studentCourse.errors.required">
+              Student Course is required.
+            </div>
+            <div style="color:red" *ngIf="studform.controls.studentCourse.errors.pattern">
+                      Enter Only Alphabets.
+                    </div>
+              </div>
+
+              <div class="form-group">
+                <label for="subject1">Enter Subject 1 Marks:</label>
+                <input type="text" class="form-control" id="subject1" #subject1="ngModel" name="subject1" pattern="[0-9]{1,}" [(ngModel)]="subject1Txt" required  placeholder="Enter subject 1 Marks "/>
+              </div>
+              <div *ngIf="studform.controls.subject1?.errors && (studform.controls.subject1?.dirty || studform.controls.subject1?.touched)"
+              class="alert alert-danger">
+          
+            <div style="color:red" *ngIf="studform.controls.subject1.errors.required">
+              Subject1 marks is required.
+            </div>
+            <div style="color:red" *ngIf="studform.controls.subject1.errors.pattern">
+                      Subject1 Marks should be only numbers.
+                    </div>
+              </div>
+
+            <div class="form-group">
+                <label for="subject2">Enter Subject 2 Marks:</label>
+                <input type="text" class="form-control" id="subject2" #subject2="ngModel" name="subject2" pattern="[0-9]{1,}" required [(ngModel)]="subject2Txt"  placeholder="Enter subject 2 Marks "/>
+              </div>
+              <div *ngIf="studform.controls.subject2?.errors && (studform.controls.subject2?.dirty || studform.controls.subject2?.touched)"
+              class="alert alert-danger">
+          
+            <div style="color:red" *ngIf="studform.controls.subject2.errors.required">
+              Subject2 marks is required.
+            </div>
+            <div style="color:red" *ngIf="studform.controls.subject2.errors.pattern">
+                      Subject2 Marks should be only numbers.
+                    </div>
+              </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <input type="submit" class="btn btn-outline-dark" (click)="onSubmit(studform); rerender();" data-dismiss="modal" value="Save"/>
+    </div>
+  </div>
+
+</div>
+</div>
+
+      <button type="button" class="btn btn-info btn-lg text-center" data-toggle="modal" data-target="#myModal">Insert</button>
+
+    <div class="table-responsive section-padding">
+        <table class="table table-striped table-bordered table-sm row-border hover" id="studTable" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">       
+          <thead class="font-weight-bold">
+                  <tr>
+                      <td  style="display:none;" >StudentId</td>
+                      <td>studentName</td>
+                      <td>studentCourse</td>
+                      <td>subject1</td>
+                      <td>subject2</td>
+                      <td>Action</td>
+                      <td>Action</td>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let stud of students">
+                    <td  style="display:none;" > {{stud.studentId}}</td>
+                    <td>{{stud.studentName}}</td>
+                    <td> {{stud.studentCourse}}</td>
+                    <td>{{stud.subject1}}</td>
+                    <td>{{stud.subject2}}</td>
+                    <td><button type="button" class="btn btn-pill btn-info" (click)=" open(content); getSelectedStudent(stud.studentId); getSTudentId(stud.studentId)">Update</button> </td>
+                    <td><button type="button" class="btn btn-pill btn-danger" (click)="deleteStud(stud.studentId); rerender();">Delete</button> </td>          
+                
+                  </tr>
+                     
+
+                  
+                    </tbody>
+      </table>
+    </div>
+  </div>
+  

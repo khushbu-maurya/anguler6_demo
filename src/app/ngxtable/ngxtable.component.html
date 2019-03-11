@@ -1,0 +1,22 @@
+<div class="container">
+        <div class="section-title text-center">
+                <h2>This table is created using "Ngx-Datatable"</h2>
+                <h3>For more information please refer this link:<u><a href="https://swimlane.gitbook.io/ngx-datatable/">ngx-datatable</a></u></h3>
+        </div>
+     <ngx-datatable 
+        class="material"
+        style="top: 52px"
+        [rows]="students"
+        [limit]="10" 
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [loadingIndicator]="loadingIndicator">
+            <ngx-datatable-column name="studentId"></ngx-datatable-column>
+            <ngx-datatable-column name="studentName"></ngx-datatable-column>
+            <ngx-datatable-column name="studentCourse"></ngx-datatable-column>
+            <ngx-datatable-column name="subject1"></ngx-datatable-column>
+            <ngx-datatable-column name="subject2"></ngx-datatable-column>
+    </ngx-datatable>
+    </div>

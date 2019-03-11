@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+.modal-backdrop.fade
+   {
+     opacity: 0.5;
+    
+   }
+   .modal-open .modal
+   {
+     opacity: 1;
+   }
+   .modal{
+    overflow-y: auto !important;
+   
+   }
+
+   :host ng2-smart-table { 
+    font-size: 36px; 
+}
+/* @import "styles/bootstrap.min.css";
+@import "styles/animate.css";
+@import "styles/font-awesome.min.css";
+@import "styles/owl.carousel.min.css";
+@import "styles/owl.theme.default.min.css";
+@import "styles/prettyPhoto.css"; */

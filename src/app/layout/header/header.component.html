@@ -1,0 +1,45 @@
+<header id="navigation">
+		<div class="navbar main-nav" role="banner">
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="index.html">
+				<!--<img class="img-responsive" src="img/logo.png" alt="logo">-->
+			  </a>
+			</div>
+			<nav class="collapse navbar-collapse navbar-right">
+			  <ul class="nav navbar-nav">
+				<li class="active"><a routerLink="/home">Home</a>
+				</li>
+				<li>	<a routerLink="/features">Features</a>
+				
+				</li>
+				<li><a routerLink="/preview">Preview</a>
+				</li>
+				<li><a routerLink="/about-book">About Book</a>
+				</li>
+				<li><a routerLink="/about-author">Author</a>
+				</li>
+				<li><a routerLink="/forum">Forum</a>
+				</li>
+				<li><a routerLink="/contact-form">Contact</a>
+				</li>
+				<li *ngIf="auth.isAuthenticated()"><a (click)="auth.logOut()">LogOut</a></li>
+
+				<li *ngIf="!auth.isAuthenticated()"><a routerLink="/login">Login</a>
+				</li>
+				<li *ngIf="!auth.isAuthenticated()"><a routerLink="/register">Register</a>
+				</li>
+				<li><a routerLink="/ngxtable">Ngx-DataTable</a>
+				</li>
+				<li><a routerLink="/ng2smarttable">Ng2-Smart-Table</a>
+				</li>
+			  </ul>
+			</nav>
+		  </div>
+		</div>
+	  </header>
