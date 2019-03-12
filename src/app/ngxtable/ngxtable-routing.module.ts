@@ -12,7 +12,8 @@ const layoutRoutes: Routes = [{ path: 'ngxtable', component: NgxtableComponent }
 @NgModule({
   imports: [
     RouterModule.forChild(layoutRoutes),
-    NgxDatatableModule
+    NgxDatatableModule,
+    HttpClientModule
 
   ],
   declarations: [NgxtableComponent],

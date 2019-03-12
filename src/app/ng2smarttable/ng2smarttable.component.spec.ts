@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+
 import { Ng2smarttableComponent } from './ng2smarttable.component';
 
 describe('Ng2smarttableComponent', () => {
@@ -8,7 +10,8 @@ describe('Ng2smarttableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ Ng2smarttableComponent ]
+      declarations: [ Ng2smarttableComponent ],
+      imports:[Ng2SmartTableModule]
     })
     .compileComponents();
   }));

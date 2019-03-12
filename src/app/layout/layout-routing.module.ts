@@ -2,6 +2,8 @@
 import { NgModule }             from '@angular/core';
 
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http'; 
+
 import { RouterModule, Routes } from '@angular/router';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
@@ -10,7 +12,8 @@ const layoutRoutes: Routes = [{path:'header',component:HeaderComponent},{path:'f
 @NgModule({
     imports: [
       CommonModule,
-      RouterModule.forChild(layoutRoutes)
+      RouterModule.forChild(layoutRoutes),
+      HttpClientModule
     ],
     declarations:[HeaderComponent,FooterComponent ],
     exports: [

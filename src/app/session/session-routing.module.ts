@@ -10,6 +10,7 @@ const sessionRoutes: Routes = [{path:'login',component:LoginComponent},{path:'re
 @NgModule({
   imports: [RouterModule.forRoot(sessionRoutes),FormsModule,BrowserAnimationsModule,ToastrModule],
   declarations:[LoginComponent,RegisterComponent],
-  exports: [RouterModule,LoginComponent,RegisterComponent]
+  exports: [RouterModule,LoginComponent,RegisterComponent],
+  providers:[ToastrModule]
 })
 export class SessionRoutingModule { }

@@ -33,7 +33,7 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     AppRoutingModule,
     FeatureRoutingModule,
     ContactFormRoutingModule,
-   AboutRoutingModule,
+    AboutRoutingModule,
     BuyNowRoutingModule,
     ForumRoutingModule,
     HomeRoutingModule,
@@ -54,6 +54,6 @@ import { ToastrModule } from 'ng6-toastr-notifications';
   exports:[LayoutRoutingModule,AboutRoutingModule,SessionRoutingModule],
 
   bootstrap: [AppComponent],
-  providers:[StudentServiceService,AuthGuard,AuthServiceService]
+  providers:[StudentServiceService,AuthGuard,AuthServiceService,HttpClientModule,ToastrModule]
 })
 export class AppModule { }

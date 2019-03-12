@@ -6,7 +6,12 @@ import { AboutAuthorComponent } from './about-author/about-author.component';
 import { AboutBookComponent } from './about-book/about-book.component';
 
 
-const aboutRoutes: Routes = [{path:'about-author',component:AboutAuthorComponent},{path:'more-book',component:MoreBookComponent},{path:'about-book',component:AboutBookComponent}];
+const aboutRoutes: Routes =
+ [
+   {path:'about-author',component:AboutAuthorComponent},
+   {path:'more-book',component:MoreBookComponent},
+   {path:'',component:AboutBookComponent},
+   {path:'about-book',component:AboutBookComponent}];
 
 @NgModule({
     imports: [

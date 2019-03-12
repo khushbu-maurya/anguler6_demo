@@ -19,7 +19,7 @@ export class StudentServiceService {
     debugger
     const endpoint = this._api.getAllStudents;
  console.log(this.http.get<Array<Student>>(endpoint)
- .pipe(map(response => {return response;})));
+    .pipe(map(response => {return response;})));
     return this.http.get<Array<Student>>(endpoint)
     .pipe(map(response => {return response;}));
   }
