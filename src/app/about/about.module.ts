@@ -6,7 +6,7 @@ import { AboutAuthorComponent } from './about-author/about-author.component';
 import { AboutBookComponent } from './about-book/about-book.component';
 
 @NgModule({
-  declarations: [AboutAuthorComponent, AboutBookComponent, MoreBookComponent],
+  declarations: [],
   imports: [
     CommonModule,
     AboutRoutingModule

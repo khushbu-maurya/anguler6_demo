@@ -29,7 +29,7 @@ export class AuthServiceService {
 
   public logOut(){
     localStorage.clear();
-    this.toastr.errorToastr('You need to Login first!!', 'Login Required!!');
+    this.toastr.successToastr('You have successfully looged out!!', 'LogOut!!');
     
   }
 }

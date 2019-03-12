@@ -2,15 +2,20 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 
+import { ToastrModule } from 'ng6-toastr-notifications';
+import {LayoutRoutingModule} from './layout/layout-routing.module';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        LayoutRoutingModule,
+        ToastrModule
       ],
       declarations: [
         AppComponent
       ],
+      providers:[ToastrModule]
     }).compileComponents();
   }));
 

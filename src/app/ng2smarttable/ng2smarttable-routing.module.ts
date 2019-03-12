@@ -12,7 +12,8 @@ const layoutRoutes: Routes = [{ path: 'ng2smarttable', component: Ng2smarttableC
 @NgModule({
   imports: [
     RouterModule.forChild(layoutRoutes),
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    HttpClientModule
   ],
   declarations: [Ng2smarttableComponent],
   exports: [

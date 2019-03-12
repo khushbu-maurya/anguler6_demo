@@ -1,14 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgxtableComponent } from './ngxtable.component';
+import {HttpClientModule} from '@angular/common/http';
 
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 describe('NgxtableComponent', () => {
   let component: NgxtableComponent;
   let fixture: ComponentFixture<NgxtableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgxtableComponent ]
+      declarations: [ NgxtableComponent ],
+      imports:[NgxDatatableModule,HttpClientModule]
     })
     .compileComponents();
   }));

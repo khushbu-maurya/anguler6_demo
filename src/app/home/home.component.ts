@@ -50,8 +50,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
 
    this.dtOptions = {
      ajax:this.students,
-    pagingType: 'full_numbers',
-    processing: true
+    pagingType: 'full_numbers'  
    };
     console.log(this.students);
   }
