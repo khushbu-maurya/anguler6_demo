@@ -1,3 +1,4 @@
+
 import {  AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { StudentServiceService } from '../shared/services/student-service.service';
 import {HttpClient,HttpHeaders,HttpErrorResponse} from '@angular/common/http';
@@ -8,14 +9,22 @@ import { FormGroup, FormControl, Validators, FormBuilder,NgForm, NgModel  } from
 import {NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+import { saveAs } from 'file-saver';
+
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+ 
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
- 
-
 export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
    students:any;
    dtOptions: DataTables.Settings = {};
@@ -31,7 +40,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
   studentIdTxt;
   subject1Txt;
   subject2Txt;
-  constructor(private modalService: NgbModal,private http : HttpClient ,private fb:FormBuilder,private studentservice: StudentServiceService) {
+  result:Blob;
+  exportAsConfig: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementId: 'studTable', // the id of html/table element
+    options:{
+      data:this.students
+    }
+  }
+
+  constructor(private exportAsService: ExportAsService,private modalService: NgbModal,private http : HttpClient ,private fb:FormBuilder,private studentservice: StudentServiceService) {
     this.studform=fb.group({
       studentNameTxt : ['',Validators.required],
       studentCourseTxt : ['',Validators.required],
@@ -46,6 +64,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
   this.studentservice.getAll().subscribe(data => { 
      debugger
      this.students = data; 
+   
    });
 
    this.dtOptions = {
@@ -63,6 +82,52 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
    });
   }
 
+  export() {
+    // download the file using old school javascript method
+    this.exportAsService.save(this.exportAsConfig, 'My File Name');
+   
+    // get the data as base64 or json object for json type - this will be helpful in ionic or SSR
+    
+  }
+
+  exportByType(documentType: string){
+    debugger
+    this.studentservice.getAll().subscribe(data => { 
+      debugger
+      this.students = data; 
+      this.exportAsService.contentToBlob(data.toString()).subscribe(res=>{
+          this.result = res;
+          const blob = new Blob([this.result as BlobPart]);
+          const objectUrl = URL.createObjectURL(blob);
+        
+    //      var FileSaver = require('file-saver');
+          FileSaver.saveAs(blob, 'Export.' + documentType);
+          window.open(objectUrl);
+          });
+    });
+    
+  }
+
+  public dmeo(){
+   this.exportAsExcelFile(this.students,"styud");
+  }
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    console.log('worksheet',worksheet);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+  
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  }
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }

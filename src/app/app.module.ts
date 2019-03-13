@@ -22,7 +22,7 @@ import {NgbModule,NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuardService as AuthGuard } from './shared/services/guards/auth-guard.service';
 import { AuthServiceService } from './shared/services/auth-service.service';
-
+import { ExportAsModule } from 'ngx-export-as';
 import { ToastrModule } from 'ng6-toastr-notifications';
 @NgModule({
   declarations: [
@@ -49,7 +49,8 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     NgbModalModule,NgxDatatableModule,
     Ng2SmarttableRoutingModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ExportAsModule
   ],
   exports:[LayoutRoutingModule,AboutRoutingModule,SessionRoutingModule],
 

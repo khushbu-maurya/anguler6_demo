@@ -7,7 +7,7 @@ import { DataTablesModule } from 'angular-datatables';
 import {FormsModule} from '@angular/forms';
 import {NgbModule,NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ContactFormComponent} from '../contact-form/contact-form/contact-form.component';
-
+import { ExportAsModule } from 'ngx-export-as';
 const homeRoutes: Routes = [{path:'home',component:HomeComponent},{ 
   path: 'contact-form',
   component: ContactFormComponent}];
@@ -18,7 +18,8 @@ const homeRoutes: Routes = [{path:'home',component:HomeComponent},{
       CommonModule,
       DataTablesModule,
       FormsModule,
-      NgbModule.forRoot()
+      NgbModule.forRoot(),
+      ExportAsModule
     ],
     declarations:[HomeComponent],
     exports: [

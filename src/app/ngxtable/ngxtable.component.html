@@ -3,18 +3,22 @@
                 <h2>This table is created using "Ngx-Datatable"</h2>
                 <h3>For more information please refer this link:<u><a href="https://swimlane.gitbook.io/ngx-datatable/">ngx-datatable</a></u></h3>
         </div>
+
+        <button (click)="export()">export as excel(using ngx-export-as npm package)</button>
+    
      <ngx-datatable 
         class="material"
         style="top: 52px"
+        id="studTable"
         [rows]="students"
         [limit]="10" 
         [columnMode]="'force'"
         [headerHeight]="50"
         [footerHeight]="50"
         [rowHeight]="'auto'">
-            <ngx-datatable-column name="studentId"></ngx-datatable-column>
-            <ngx-datatable-column name="studentName"></ngx-datatable-column>
-            <ngx-datatable-column name="studentCourse"></ngx-datatable-column>
+            <ngx-datatable-column style="display:none;" name="student Id"></ngx-datatable-column>
+            <ngx-datatable-column name="student Name"></ngx-datatable-column>
+            <ngx-datatable-column name="student Course"></ngx-datatable-column>
             <ngx-datatable-column name="subject1"></ngx-datatable-column>
             <ngx-datatable-column name="subject2"></ngx-datatable-column>
     </ngx-datatable>
