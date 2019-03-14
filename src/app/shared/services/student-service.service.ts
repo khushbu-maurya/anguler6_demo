@@ -24,15 +24,22 @@ export class StudentServiceService {
     .pipe(map(response => {return response;}));
   }
 
-  postStudent(stud:Student){
+  postStudent(stud:Student,fileToUpload:File){
+    
     this.stude=new Student();
     this.stude.studentName=stud.studentName;
     this.stude.studentCourse=stud.studentCourse;
     this.stude.subject1=stud.subject1;
     this.stude.subject2=stud.subject2;
-
+    this.stude.studImg=stud.studImg;
+    const formData: FormData = new FormData();
+    formData.append('studentName',stud.studentName);
+    formData.append('studentCourse',stud.studentCourse);
+    formData.append('subject1',stud.subject1.toString());
+    formData.append('subject2',stud.subject2.toString());
+    formData.append('studImg', fileToUpload, fileToUpload.name);
     console.log(this.stude);
-    return this.http.post<Student>(this._api.postStudents, this.stude);
+    return this.http.post<Student>(this._api.postStudents, formData);
  
   }
 

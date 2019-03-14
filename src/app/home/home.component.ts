@@ -8,10 +8,11 @@ import * as $ from 'jquery';
 import { FormGroup, FormControl, Validators, FormBuilder,NgForm, NgModel  } from '@angular/forms';
 import {NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
+import { ToastrManager } from 'ng6-toastr-notifications';
 import { DataTableDirective } from 'angular-datatables';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
-import { saveAs } from 'file-saver';
 
+import { environment } from '../../environments/environment';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
@@ -27,6 +28,7 @@ const EXCEL_EXTENSION = '.xlsx';
 })
 export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
    students:any;
+   imgPath:string = environment.imageFolderPath;
    dtOptions: DataTables.Settings = {};
    dtTrigger: Subject<any> = new Subject();
    @ViewChild(DataTableDirective)
@@ -40,7 +42,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
   studentIdTxt;
   subject1Txt;
   subject2Txt;
-  result:Blob;
+  imageUrl: string = "../assets/img/defaultUserImg.png";
+  fileToUpload: File = null;
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
     elementId: 'studTable', // the id of html/table element
@@ -49,13 +52,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
     }
   }
 
-  constructor(private exportAsService: ExportAsService,private modalService: NgbModal,private http : HttpClient ,private fb:FormBuilder,private studentservice: StudentServiceService) {
-    this.studform=fb.group({
-      studentNameTxt : ['',Validators.required],
-      studentCourseTxt : ['',Validators.required],
-      subject1Txt : ['',Validators.required],
-      subject2 : ['',Validators.required]
-    });
+  constructor(private toastr:ToastrManager, private exportAsService: ExportAsService,private modalService: NgbModal,private http : HttpClient ,private fb:FormBuilder,private studentservice: StudentServiceService) {
+    
     console.log(this.students);
    }
 
@@ -64,7 +62,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
   this.studentservice.getAll().subscribe(data => { 
      debugger
      this.students = data; 
-   
+   console.log(this.students);
    });
 
    this.dtOptions = {
@@ -90,23 +88,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
     
   }
 
-  exportByType(documentType: string){
-    debugger
-    this.studentservice.getAll().subscribe(data => { 
-      debugger
-      this.students = data; 
-      this.exportAsService.contentToBlob(data.toString()).subscribe(res=>{
-          this.result = res;
-          const blob = new Blob([this.result as BlobPart]);
-          const objectUrl = URL.createObjectURL(blob);
-        
-    //      var FileSaver = require('file-saver');
-          FileSaver.saveAs(blob, 'Export.' + documentType);
-          window.open(objectUrl);
-          });
-    });
-    
-  }
 
   public dmeo(){
    this.exportAsExcelFile(this.students,"styud");
@@ -142,7 +123,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
     if(this.studId==null)
     {
       console.log("insert");
-      this.studentservice.postStudent(form.value)
+      console.log(form.value);
+      this.studentservice.postStudent(form.value,this.fileToUpload)
         .subscribe(data => {
          // this.resetForm(form);
         // $('#studTable').DataTable().destroy();
@@ -151,9 +133,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
          this.rerender();
       
         })
-  //      this.toastr.successToastr('New Student Added Succcessfully', 'Student Register');
-    
- //       this.resetForm();
+       this.toastr.successToastr('New Student Added Succcessfully', 'Student Register');
+       this.resetForm();
      }
     else
     {
@@ -163,12 +144,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
        // this.resetForm(form);
        this.studentservice.getAll().subscribe(data => {this.students =data;});
        this.rerender();
-       // this.toastr.success('New Record Added Succcessfully', 'Employee Register');
       })
       console.log("update");
-   //   this.toastr.successToastr('Student Updated Succcessfully', 'Student Updation');
+     this.toastr.successToastr('Student Updated Succcessfully', 'Student Updation');
     
-  //    this.resetForm();
+     this.resetForm();
     }
     
 
@@ -212,11 +192,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
          // this.resetForm(form);
          this.studentservice.getAll().subscribe(data => {this.students =data; });
          this.rerender();
-         // this.toastr.success('New Record Added Succcessfully', 'Employee Register');
         })
-      //  this.toastr.successToastr('Student Deleted Succcessfully', 'Student Deletion');
+       this.toastr.successToastr('Student Deleted Succcessfully', 'Student Deletion');
     
         this.resetForm();
     }
 
+    handleFileInput(file: FileList) {
+      this.fileToUpload = file.item(0);
+  console.log("fdjfik:"+this.fileToUpload.name);
+      //Show image preview
+      var reader = new FileReader();
+      reader.onload = (event:any) => {
+        this.imageUrl = event.target.result;
+      }
+      reader.readAsDataURL(this.fileToUpload);
+    }
 }

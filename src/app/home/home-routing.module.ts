@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {NgbModule,NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ContactFormComponent} from '../contact-form/contact-form/contact-form.component';
 import { ExportAsModule } from 'ngx-export-as';
+import { ToastrModule } from 'ng6-toastr-notifications';
 const homeRoutes: Routes = [{path:'home',component:HomeComponent},{ 
   path: 'contact-form',
   component: ContactFormComponent}];
@@ -19,7 +20,8 @@ const homeRoutes: Routes = [{path:'home',component:HomeComponent},{
       DataTablesModule,
       FormsModule,
       NgbModule.forRoot(),
-      ExportAsModule
+      ExportAsModule,
+      ToastrModule
     ],
     declarations:[HomeComponent],
     exports: [

@@ -4,4 +4,5 @@ export class Student {
     studentCourse:string;
     subject1:number;
     subject2:number;
+    studImg:string;
 }
