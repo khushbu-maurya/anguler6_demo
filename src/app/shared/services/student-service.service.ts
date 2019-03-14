@@ -11,7 +11,6 @@ import { Student } from '../models/student';
 })
 export class StudentServiceService {
   
-  stude:Student;
   constructor(private http : HttpClient,private _api : ApiService) {
      }
 
@@ -25,27 +24,30 @@ export class StudentServiceService {
   }
 
   postStudent(stud:Student,fileToUpload:File){
-    
-    this.stude=new Student();
-    this.stude.studentName=stud.studentName;
-    this.stude.studentCourse=stud.studentCourse;
-    this.stude.subject1=stud.subject1;
-    this.stude.subject2=stud.subject2;
-    this.stude.studImg=stud.studImg;
+  
     const formData: FormData = new FormData();
     formData.append('studentName',stud.studentName);
     formData.append('studentCourse',stud.studentCourse);
     formData.append('subject1',stud.subject1.toString());
     formData.append('subject2',stud.subject2.toString());
     formData.append('studImg', fileToUpload, fileToUpload.name);
-    console.log(this.stude);
+
     return this.http.post<Student>(this._api.postStudents, formData);
  
   }
 
-  putStudent(id,stud:Student){
+  putStudent(id,stud:Student,fileToUpload:File){
+  
     
-    return this.http.put<Student>(this._api.putStudents+"/"+id, stud);
+    const formData: FormData = new FormData();
+    formData.append('studentId',stud.studentId.toString());
+    formData.append('studentName',stud.studentName);
+    formData.append('studentCourse',stud.studentCourse);
+    formData.append('subject1',stud.subject1.toString());
+    formData.append('subject2',stud.subject2.toString());
+    formData.append('studImg', fileToUpload, fileToUpload.name);
+
+    return this.http.put<Student>(this._api.putStudents+"/"+id, formData);
  
   }
 

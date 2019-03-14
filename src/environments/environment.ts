@@ -3,8 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  imageFolderPath:"C:\Users\as\Desktop\demo_training\webApiTestCrud\studentCrud\studentApi\Image\\"
+  production: false
 };
 
 /*

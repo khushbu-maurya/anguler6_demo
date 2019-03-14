@@ -3,16 +3,12 @@ import {  AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular
 import { StudentServiceService } from '../shared/services/student-service.service';
 import {HttpClient,HttpHeaders,HttpErrorResponse} from '@angular/common/http';
 import {Student} from '../shared/models/student';
-import * as $ from 'jquery';
-
 import { FormGroup, FormControl, Validators, FormBuilder,NgForm, NgModel  } from '@angular/forms';
 import {NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { DataTableDirective } from 'angular-datatables';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
-
-import { environment } from '../../environments/environment';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
@@ -28,7 +24,6 @@ const EXCEL_EXTENSION = '.xlsx';
 })
 export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
    students:any;
-   imgPath:string = environment.imageFolderPath;
    dtOptions: DataTables.Settings = {};
    dtTrigger: Subject<any> = new Subject();
    @ViewChild(DataTableDirective)
@@ -42,6 +37,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
   studentIdTxt;
   subject1Txt;
   subject2Txt;
+  studImgCtrl;
   imageUrl: string = "../assets/img/defaultUserImg.png";
   fileToUpload: File = null;
   exportAsConfig: ExportAsConfig = {
@@ -54,7 +50,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
 
   constructor(private toastr:ToastrManager, private exportAsService: ExportAsService,private modalService: NgbModal,private http : HttpClient ,private fb:FormBuilder,private studentservice: StudentServiceService) {
     
-    console.log(this.students);
    }
 
   ngOnInit() {
@@ -112,10 +107,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
-  open(content) {
-    console.log(content);
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true });
-  }
 
   onSubmit(form: NgForm) {
 
@@ -128,27 +119,28 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
         .subscribe(data => {
          // this.resetForm(form);
         // $('#studTable').DataTable().destroy();
-        
+        this.resetForm();
          this.studentservice.getAll().subscribe(data => {this.students =data;});
          this.rerender();
       
         })
        this.toastr.successToastr('New Student Added Succcessfully', 'Student Register');
-       this.resetForm();
+
      }
     else
     {
       console.log(this.studentIdTxt);
-      this.studentservice.putStudent(this.studentIdTxt,form.value)
+      console.log(form.value);
+      this.studentservice.putStudent(this.studentIdTxt,form.value,this.fileToUpload)
       .subscribe(data => {
-       // this.resetForm(form);
+       this.resetForm();
        this.studentservice.getAll().subscribe(data => {this.students =data;});
        this.rerender();
       })
       console.log("update");
      this.toastr.successToastr('Student Updated Succcessfully', 'Student Updation');
     
-     this.resetForm();
+     
     }
     
 
@@ -169,6 +161,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
           this.studentCourseTxt=stud.studentCourse;
           this.subject1Txt=stud.subject1;
           this.subject2Txt=stud.subject2;
+         // this.studImgCtrl=stud.studImg;
+          this.imageUrl=stud.studImg;
         } else {
           console.log(
             `Sugar Level with id '${id}' not found, returning to list`
@@ -184,6 +178,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
           this.studentCourseTxt="";
           this.subject1Txt="";
           this.subject2Txt="";
+        //  this.studImgCtrl="";
+          this.imageUrl = "../assets/img/defaultUserImg.png";
     }
 
     deleteStud(id){
@@ -199,8 +195,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy,OnInit {
     }
 
     handleFileInput(file: FileList) {
+      debugger
       this.fileToUpload = file.item(0);
-  console.log("fdjfik:"+this.fileToUpload.name);
       //Show image preview
       var reader = new FileReader();
       reader.onload = (event:any) => {

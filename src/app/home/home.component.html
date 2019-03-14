@@ -87,7 +87,7 @@
                <label for="studImg">Enter Student Photo:</label>
          
                   <input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)"
-               id="studImg" #studImg="ngModel" name="studImg" pattern="[0-9]{1,}"
+               id="studImg" #studImg="ngModel" name="studImg"
                 [(ngModel)]="studImgCtrl" required />
                 <img [src]="imageUrl" style="width:150px;height:120px">
   
