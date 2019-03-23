@@ -10,6 +10,7 @@ import {PreviewRoutingModule} from './preview/preview-routing.module';
 import {TestimonialRoutingModule} from './testimonial/testimonial-routing.module';
 import {LayoutRoutingModule} from './layout/layout-routing.module';
 import {AboutRoutingModule} from './about/about-routing.module';
+import {ReduxTodoRoutingModule} from './redux-todo/redux-todo-routing.module';
 import {NgxtableRoutingModule} from './ngxtable/ngxtable-routing.module';
 import { AppComponent } from './app.component';
 import {SessionRoutingModule} from './session/session-routing.module';
@@ -24,6 +25,9 @@ import { AuthGuardService as AuthGuard } from './shared/services/guards/auth-gua
 import { AuthServiceService } from './shared/services/auth-service.service';
 import { ExportAsModule } from 'ngx-export-as';
 import { ToastrModule } from 'ng6-toastr-notifications';
+import { NgRedux, NgReduxModule } from '@angular-redux/store';
+import { IAppState, rootReducer, INITIAL_STATE } from './shared/store';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -41,6 +45,7 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     TestimonialRoutingModule,
     SessionRoutingModule,
     LayoutRoutingModule,
+    ReduxTodoRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -50,11 +55,16 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     Ng2SmarttableRoutingModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    ExportAsModule
+    ExportAsModule,
+    NgReduxModule
   ],
-  exports:[LayoutRoutingModule,AboutRoutingModule,SessionRoutingModule],
+  exports:[LayoutRoutingModule,AboutRoutingModule,SessionRoutingModule,ReduxTodoRoutingModule],
 
   bootstrap: [AppComponent],
   providers:[StudentServiceService,AuthGuard,AuthServiceService,HttpClientModule,ToastrModule]
 })
-export class AppModule { }
+export class AppModule {
+  constructor (ngRedux: NgRedux<IAppState>) {
+    ngRedux.configureStore(rootReducer, INITIAL_STATE);
+}
+ }
